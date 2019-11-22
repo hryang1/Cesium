@@ -1,0 +1,330 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Use correct character set. -->
+  <meta charset="utf-8">
+  <!-- Tell IE to use the latest, best version. -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+  <title>Hello World!</title>
+  <script src="../Build/Cesium/Cesium.js"></script>
+  <link rel="stylesheet" href="../Build/Cesium/Widgets/widgets.css">
+  <link rel="stylesheet" href="../Build/Cesium/Widgets/widgets.css">
+ 
+  
+</head>
+<body>
+  <div id="cesiumContainer" height="600px" width="full" >  </div>
+  <div id="toolbar">
+    <table class="infoPanel">
+        <tbody>
+            <tr>
+                <td>Click on the 3D window then use the keyboard to change settings.</td>
+            </tr>
+            <tr>
+                <td>Heading: <span id="heading"></span>°</td>
+            </tr>
+            <tr>
+                <td>← to left/→ to right</td>
+            </tr>
+            <tr>
+                <td>Pitch: <span id="pitch"></span>°</td>
+            </tr>
+            <tr>
+                <td>↑ to up/↓ to down</td>
+            </tr>
+            <tr>
+                <td>roll: <span id="roll"></span>°</td>
+            </tr>
+            <tr>
+                <td>← + ⇧ left/→ + ⇧ right</td>
+            </tr>
+            <tr>
+                <td>Speed: <span id="speed"></span>m/s</td>
+            </tr>
+            <tr>
+                <td>↑ + ⇧ to speed up/↓ + ⇧ to speed down</td>
+            </tr>
+            <tr>
+                <td>following aircraft
+                    <input id="fromBehind" type="checkbox">
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+  <script>
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkODk5YWNlNS1kZjk1LTQzMTctOGRmMy05ZGQ2NTNjMGNhODYiLCJpZCI6OTUwMywic2NvcGVzIjpbImFzciIsImdjIl0sImlhdCI6MTU1NDI1NTU3Mn0.VvgpCpgKnmYhn2ZiABROO2e2bjFERiWBW77i5XnQt4A'
+   
+    // var viewer = new Cesium.Viewer('cesiumContainer', {
+    // shouldAnimate : true});
+    //  viewer.scene.globe.enableLighting = true;
+
+    // var canvas = viewer.canvas;
+
+
+//     //一个局部坐标为p1(x,y,z)的点，将它的局部坐标原点放置到loc(lng,lat,alt)上，
+//     //局部坐标的z轴垂直于地表，局部坐标的y轴指向正北，并围绕这个z轴旋转d度，
+//     //求此时p1(x,y,z)变换成全局坐标笛卡尔坐p2(x1,y1,z1)是多少？
+
+//     var rotate = Cesium.Math.toRadians(d);//转成弧度
+// var quat = Cesium.Quaternion.fromAxisAngle(Cesium.Cartesian3.UNIT_Z, rotate); //quat为围绕这个z轴旋转d度的四元数
+// var rot_mat3 = Cesium.Matrix3.fromQuaternion(quat);//rot_mat3为根据四元数求得的旋转矩阵
+// var v = new Cesium.Cartesian3(x, y, z);//p1的局部坐标
+// var m = Cesium.Matrix4.fromRotationTranslation(rot_mat3, Cesium.Cartesian3.ZERO);
+// //m为旋转加平移的4x4变换矩阵，这里平移为(0,0,0)， 相当于把三阶旋转矩阵换成一个四阶矩阵。
+// //实际上m是一个局部坐标系里的一个旋转变换
+// //Cesium.Matrix4.fromRotationTranslation(rotation(Matrix3), translation(cartesian3)默认为0,0,0, result(matrix4))
+
+// m = Cesium.Matrix4.multiplyByTranslation(m, v);//m = m X v 
+// //Cesium.Matrix4.multiplyByTranslation(matrix, translation, result)   v实际上充当平移变换
+// //此时的m 是真正的旋转加坐标点平移变换 的四阶矩阵
+
+// var cart3 = ellipsoid.cartographicToCartesian(Cesium.Cartographic.fromDegrees(lng, lat, alt)); //得到局部坐标原点的全局坐标
+// var m1 = Cesium.Transforms.eastNorthUpToFixedFrame(cart3);
+// //m1为原点在cart3的，z轴垂直于地表，y轴指向正北的局部坐标系转换为地球世界坐标系的4x4变换矩阵
+
+// m = Cesium.Matrix4.multiplyTransformation(m, m1);//m = m X m1
+// //m此时是旋转d 平移(lng,lat,alt) 再局部转世界坐标系的一个转换矩阵
+
+// var p2 = Cesium.Matrix4.getTranslation(m,new Cesium.Cartesian3);//根据最终变换矩阵m得到p2
+// //得到  经过m 转换矩阵后 在世界坐标系的坐标点 
+// //Gets the translation portion of the provided matrix, assuming the matrix is a affine transformation matrix.
+// console.log('x=' + p2.x + ',y=' + p2.y + ',z=' + p2.z );
+
+// //等价优化代码
+// //Cesium.Matrix4.multiply(m, Cesium.Matrix4.fromRotationTranslation(rotation), m); //rotation是Matrix3
+// Cesium.Matrix4.multiplyByMatrix3(m, rotation, m);
+// // Cesium.Matrix4.multiply(m, Cesium.Matrix4.fromTranslation(position), m);
+// Cesium.Matrix4.multiplyByTranslation(m, position, m); //position 是Cartesian3
+
+
+
+
+
+
+
+
+//  // 假设当前模型的经纬度坐标为{114, 30, 1000} 方位角{heading: 30, pitch: 20, roll: 10} 都是角度来计算 
+//         // 1. 根据坐标, 方位角计算世界矩阵
+//         var position = Cesium.Cartesian3.fromDegrees(114, 30, 1000);
+//         var heading = Cesium.Math.toRadians(30);
+//         var pitch = Cesium.Math.toRadians(20);
+//         var roll = Cesium.Math.toRadians(10);
+//         var headingPitchRoll = new Cesium.HeadingPitchRoll(heading, pitch, roll);
+ 
+//         var m = Cesium.Transforms.headingPitchRollToFixedFrame(position, headingPitchRoll, Cesium.Ellipsoid.WGS84, Cesium.Transforms.eastNorthUpToFixedFrame, new Cesium.Matrix4());
+//         console.log(m);
+ 
+//         // 2. 根据矩阵求方位角
+//         // 我们就用上面得到的矩阵 m 来做测试
+//         // 计算中心处的变换矩阵
+//         var a= Cesium.Matrix4.getTranslation(m,new Cesium.Cartesian3());
+//         // console.log(a);
+//         // var b=viewer.scene.globe.ellipsoid.cartesianToCartographic(a);
+//         // var lat=Cesium.Math.toDegrees(b.latitude);
+//         // var lng=Cesium.Math.toDegrees(b.longitude);
+//         // var alt=b.height;
+//         // var c=viewer.scene.globe.ellipsoid.cartesianToCartographic(position);
+//         // console.log(lat,lng,alt);
+//         // console.log(b,c);  //为什么b不等于c
+//         var m1 = Cesium.Transforms.eastNorthUpToFixedFrame(a, Cesium.Ellipsoid.WGS84);
+//         console.log(m1);
+//         var m11 = Cesium.Transforms.eastNorthUpToFixedFrame(position, Cesium.Ellipsoid.WGS84);
+//         console.log(m11);
+//         // 矩阵相除 m除以m1  得到旋转矩阵m3
+//         var m3 = Cesium.Matrix4.multiply(Cesium.Matrix4.inverse(m1, new Cesium.Matrix4()), m, new Cesium.Matrix4());
+//         console.log(m3);
+//         var mat3 = Cesium.Matrix4.getRotation(m3,new Cesium.Matrix3());
+//         console.log(mat3);
+//         // 计算四元数
+//         var q = Cesium.Quaternion.fromRotationMatrix(mat3);
+//         // 计算旋转角(弧度)
+//         var hpr = Cesium.HeadingPitchRoll.fromQuaternion(q);
+//         // 得到角度
+//         var heading = Cesium.Math.toDegrees(hpr.heading);
+//         var pitch = Cesium.Math.toDegrees(hpr.pitch);
+//         var roll = Cesium.Math.toDegrees(hpr.roll);
+//         console.log('heading : ' + heading, 'pitch : ' + pitch, 'roll : ' + roll)
+
+
+
+
+
+
+
+
+
+
+
+
+var viewer = new Cesium.Viewer('cesiumContainer', {
+    shouldAnimate : true
+});
+
+var canvas = viewer.canvas;
+canvas.setAttribute('tabindex', '0'); // needed to put focus on the canvas
+canvas.addEventListener('click', function() {
+    canvas.focus();
+});
+canvas.focus();
+
+var scene = viewer.scene;
+
+var pathPosition = new Cesium.SampledPositionProperty();
+var entityPath = viewer.entities.add({
+    position : pathPosition,
+    name : 'path',
+    path : {
+        show : true,
+        leadTime : 0,
+        trailTime : 60,
+        width : 10,
+        resolution : 1,
+        material : new Cesium.PolylineGlowMaterialProperty({
+            glowPower : 0.3,
+            taperPower : 0.3,
+            color : Cesium.Color.PALEGOLDENROD
+        })
+    }
+});
+
+var camera = viewer.camera;
+var controller = scene.screenSpaceCameraController;
+var r = 0;
+var center = new Cesium.Cartesian3();
+
+var hpRoll = new Cesium.HeadingPitchRoll();
+var hpRange = new Cesium.HeadingPitchRange();
+var speed = 10;
+var deltaRadians = Cesium.Math.toRadians(3.0);
+
+var position = Cesium.Cartesian3.fromDegrees(-123.0744619, 44.0503706, 5000.0);
+var speedVector = new Cesium.Cartesian3();
+var fixedFrameTransform = Cesium.Transforms.localFrameToFixedFrameGenerator('north', 'west');
+
+var planePrimitive = scene.primitives.add(Cesium.Model.fromGltf({
+    url : '../Apps/SampleData/models/CesiumMan/Cesium_Man.glb',
+    modelMatrix : Cesium.Transforms.headingPitchRollToFixedFrame(position, hpRoll, Cesium.Ellipsoid.WGS84, fixedFrameTransform),
+    minimumPixelSize : 128
+}));
+
+planePrimitive.readyPromise.then(function(model) {
+    // Play and loop all animations at half-speed
+    model.activeAnimations.addAll({
+        multiplier : 0.5,
+        loop : Cesium.ModelAnimationLoop.REPEAT
+    });
+
+    // Zoom to model
+    r = 2.0 * Math.max(model.boundingSphere.radius, camera.frustum.near);
+    controller.minimumZoomDistance = r * 0.5;
+    Cesium.Matrix4.multiplyByPoint(model.modelMatrix, model.boundingSphere.center, center);
+    var heading = Cesium.Math.toRadians(230.0);
+    var pitch = Cesium.Math.toRadians(-20.0);
+    hpRange.heading = heading;
+    hpRange.pitch = pitch;
+    hpRange.range = r * 50.0;
+    camera.lookAt(center, hpRange);
+});
+console.log(position)
+document.addEventListener('keydown', function(e) {
+    switch (e.keyCode) {
+        case 40:
+            if (e.shiftKey) {
+                // speed down
+                speed = Math.max(--speed, 1);
+            } else {
+                // pitch down
+                hpRoll.pitch -= deltaRadians;
+                if (hpRoll.pitch < -Cesium.Math.TWO_PI) {
+                    hpRoll.pitch += Cesium.Math.TWO_PI;
+                }
+            }
+            break;
+        case 38:
+            if (e.shiftKey) {
+                // speed up
+                speed = Math.min(++speed, 100);
+            } else {
+                // pitch up
+                hpRoll.pitch += deltaRadians;
+                if (hpRoll.pitch > Cesium.Math.TWO_PI) {
+                    hpRoll.pitch -= Cesium.Math.TWO_PI;
+                }
+            }
+            break;
+        case 39:
+            if (e.shiftKey) {
+                // roll right
+                hpRoll.roll += deltaRadians;
+                if (hpRoll.roll > Cesium.Math.TWO_PI) {
+                    hpRoll.roll -= Cesium.Math.TWO_PI;
+                }
+            } else {
+                // turn right
+                hpRoll.heading += deltaRadians;
+                if (hpRoll.heading > Cesium.Math.TWO_PI) {
+                    hpRoll.heading -= Cesium.Math.TWO_PI;
+                }
+            }
+            break;
+        case 37:
+            if (e.shiftKey) {
+                // roll left until
+                hpRoll.roll -= deltaRadians;
+                if (hpRoll.roll < 0.0) {
+                    hpRoll.roll += Cesium.Math.TWO_PI;
+                }
+            } else {
+                // turn left
+                hpRoll.heading -= deltaRadians;
+                if (hpRoll.heading < 0.0) {
+                    hpRoll.heading += Cesium.Math.TWO_PI;
+                }
+            }
+            break;
+        default:
+    }
+});
+
+var headingSpan = document.getElementById('heading');
+var pitchSpan = document.getElementById('pitch');
+var rollSpan = document.getElementById('roll');
+var speedSpan = document.getElementById('speed');
+var fromBehind = document.getElementById('fromBehind');
+
+viewer.scene.preUpdate.addEventListener(function(scene, time) {
+    speedVector = Cesium.Cartesian3.multiplyByScalar(Cesium.Cartesian3.UNIT_X, speed / 10, speedVector);
+    position = Cesium.Matrix4.multiplyByPoint(planePrimitive.modelMatrix, speedVector, position);
+    pathPosition.addSample(Cesium.JulianDate.now(), position);
+    Cesium.Transforms.headingPitchRollToFixedFrame(position, hpRoll, Cesium.Ellipsoid.WGS84, fixedFrameTransform, planePrimitive.modelMatrix);
+   // console.log(position)
+    if (fromBehind.checked) {
+        // Zoom to model
+        Cesium.Matrix4.multiplyByPoint(planePrimitive.modelMatrix, planePrimitive.boundingSphere.center, center);
+        hpRange.heading = hpRoll.heading;
+        hpRange.pitch = hpRoll.pitch;
+        camera.lookAt(center, hpRange);
+    }
+});
+
+viewer.scene.preRender.addEventListener(function(scene, time) {
+    headingSpan.innerHTML = Cesium.Math.toDegrees(hpRoll.heading).toFixed(1);
+    pitchSpan.innerHTML = Cesium.Math.toDegrees(hpRoll.pitch).toFixed(1);
+    rollSpan.innerHTML = Cesium.Math.toDegrees(hpRoll.roll).toFixed(1);
+    speedSpan.innerHTML = speed.toFixed(1);
+});
+
+
+
+
+
+
+    </script>
+</body>
+</html>

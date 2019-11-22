@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Use correct character set. -->
+  <meta charset="utf-8">
+  <!-- Tell IE to use the latest, best version. -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+  <title>Hello World!</title>
+  <script src="../Build/Cesium/Cesium.js"></script>
+  <link rel="stylesheet" href="../Build/Cesium/Widgets/widgets.css">
+  <!-- 如果要用沙盒里的东西的话加上这个 -->
+  <script src="../Apps/Sandcastle/Sandcastle-header.js"></script>
+  <!-- 一定要加上这个css样式 -->
+  <link rel="stylesheet" href="Sandcastle/templates/bucket.css">
+
+ 
+  
+</head>
+<body>
+  <div id="cesiumContainer"></div>
+  <script>
+   Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkODk5YWNlNS1kZjk1LTQzMTctOGRmMy05ZGQ2NTNjMGNhODYiLCJpZCI6OTUwMywic2NvcGVzIjpbImFzciIsImdjIl0sImlhdCI6MTU1NDI1NTU3Mn0.VvgpCpgKnmYhn2ZiABROO2e2bjFERiWBW77i5XnQt4A'
+    var viewer = new Cesium.Viewer('cesiumContainer');
+    viewer.scene.globe.enableLighting = true;
+ 
+var position = Cesium.Cartesian3.fromDegrees(-123.0744619, 44.0503706);
+var url = '../SampleData/models/CesiumAir/Cesium_Air.glb';
+viewer.trackedEntity = viewer.entities.add({
+    name : url,
+    position : position,
+    model : {
+        uri : url
+    }
+});
+ 
+
+var viewer = new Cesium.Viewer('cesiumContainer', {
+    shouldAnimate: true
+});
+viewer.scene.globe.enableLighting = true;
+var czml //省略了
+var canvas = viewer.scene.canvas;
+var vx;
+var position2;
+var dataSourcePromise2 = viewer.dataSources.add(Cesium.CzmlDataSource.load(czml));
+dataSourcePromise2.then(function(dataSource) {
+    vx = dataSource.entities.getById('Satellite/0 ASTRO E2')
+});
+
+function foucsVX() {
+    viewer.trackedEntity = vx;
+}
+
+viewer.scene.preRender.addEventListener(function(scene, time) {
+    position2 = vx.position.getValue(viewer.clock.currentTime) 
+    console.log(position2);
+});
+
+console.log(position2);
+var cartographic = viewer.scene.globe.ellipsoid.cartesianToCartographic(position2);
+
+  </script>
+</body>
+</html>

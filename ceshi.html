@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>1</title>
+</head>
+<body>
+    <div>aaa</div>
+<p>该实例使用 addEventListener() 方法来向按钮添加点击事件。</p>
+<button id="myBtn">点我</button>
+<p id="demo"></p>
+<script>
+//     	var a=1;
+//     var promise1 = new Promise(function(resolve, reject) 
+//     {
+//         (function() 
+//             {document.getElementById("myBtn").addEventListener
+//             ("click", function()
+//                     {var a=2;
+//                       console.log(this)
+//                         resolve(a);
+//                     }
+//             );
+//             }
+//         ) ();
+//     });
+
+// promise1.then(function(value) {
+//   console.log(value);
+// });
+// console.log(a);
+
+
+
+//怎么让他打印2
+//console.log(a);
+
+// function F(){
+//             //把DOM元素放到这个对象中
+            
+//             //为了让这些元素可以在css方法中进行访问，所以需要把这些元素放在对象上面进行传递
+//             this.ele = 1;
+//         }
+//         F.prototype.css=function(){
+//            console.log(this.ele)
+//             }
+
+//            var a1=new F();
+//             a1.css();
+        
+
+// function Obj(){
+//                  b:0; //私有变量
+                
+//                     this.a=0; //私有变量
+//                     var fn=function(){} //私有函数
+//                 this.fn=function(){ //this?
+//                 }
+//             }
+
+// var o=new Obj();
+//             console.log(Obj.b); //0
+//             console.log(typeof Obj.fn); //function
+//             console.log(o.a); 
+//             console.log(o.fn); 
+
+
+// var obj1 = {
+//     a: "hello",
+//     b: {
+//         a: "hello",
+//         b: 21}
+// };
+ 
+// var cloneObj1= Object.assign({}, obj1);
+// cloneObj1.a = "changed";
+// cloneObj1.b.a = "changed";
+// console.log(obj1.a);  //hello
+// console.log(obj1.b.a); // "changed
+
+
+// var obj2 = { a: 10, b: 20, c: 30 };
+// var cloneObj2 = Object.assign({}, obj2);
+// cloneObj2.b = 100;
+// console.log(obj2);
+// // { a: 10, b: 20, c: 30 } <-- 沒被改到
+// console.log(cloneObj2);
+
+
+
+//  function Obj(){
+ 
+// }
+
+// Obj.a=0; //静态变量
+
+// Obj.fn=function(){ //静态函数
+
+// }
+
+// console.log(Obj.a); //0
+// console.log(typeof Obj.fn); //function
+
+// var o=new Obj();
+// console.log(o.a); //undefined
+
+
+
+
+
+// function jQuery(){
+//         //this.length=50;
+//         console.log(this)
+//         console.log(this.length)
+//     }
+//     jQuery.prototype={
+     
+//         length:100
+//     }
+//    jQuery();
+//    //var a= new jQuery();
+   
+
+
+
+// var a= function f(){
+//     var n=123;
+//     function g(){
+//         console.log("n is"+n);
+//         console.log('g is called');
+//          console.log(this);
+//     }
+//     g();
+// }
+// a();
+
+// var obj = {
+//         age:18,
+//         run : function(){
+//             console.log(this);  //this:obj
+            
+//             var _that=this;
+
+//             (function(){
+//                 //this指向window
+//                 console.log(this.age); 
+//                 console.log(_that.age); 
+//                 //18？是错误的
+//                 //undefined是正确的
+//             })()
+//         }
+//     }
+//     obj.run();
+
+     
+
+     
+// var divs=document.getElementsByTagName("div");
+    
+//     for (var i = 0; i < divs.length; i++) {
+//         const element = divs[i];
+//         //闭包的解决方案
+//         element.onclick=(function(j)
+//         {
+//              return function(){
+//                  //i是来自于全局作用域
+//                 alert(j)
+//             }
+//         })(i);
+//     }
+
+
+// for(var i=0,len=divs.length;i<len;i++){
+//  (function(n){
+//  div[n].onclick = function(){
+//   console.log(n);
+//  }
+//  })(i);
+// }
+
+// var a=(function ()
+//         { 
+//             alert(2);
+//              return function(){
+//                  //i是来自于全局作用域
+//                 alert(1)
+//             }
+//         })();
+// a()
+
+// var obj5 = {
+//         age:18,
+//         run : function(){
+//           //  console.log(this);  //this:obj5
+
+//             (function(){
+//                 console.log(this.age); 
+//             }).bind(this)();  //this:obj5
+//             //通过执行了bind方法，匿名函数本身并没有执行，只是改变了该函数内部的this的值，指向obj5
+//         }
+//     }
+//     obj5.run();
+
+
+// var obj3 ={ gender:"abc",height:18,grade:"一年级" };
+//     ( { gender2=1,height,grade  } = obj3);
+// 	console.log(gender2)
+
+
+
+
+  // // 使用bind方法一
+  // var a = {
+   
+  //   b: function() {
+  //     var func = function() {
+  //       console.log(this.c);
+  //     // console.log(this)
+  //     }.bind(this);
+	//   //console.log(this);
+  //     func();
+  //   },
+  //   c: 'hello'
+  // }
+  // a.b(); // hello
+  // console.log(a.c); // hello
+
+// // 使用bind方法二
+//   var a = {
+//     b: function() {
+//       var func = function() {
+//         console.log(this.c);
+//       }
+// 	  console.log(this)
+//       func.bind(this)();
+//     },
+//     c: 'hello'
+//   }
+//   a.b(); // hello
+//   console.log(a.c); // hello
+
+
+
+// var last;
+//     function numberone(){
+//         var b=20;
+//         function numbertwo(){
+//             var c=30;
+//             console.log(c);
+//         }
+//         last=numbertwo;
+//         console.log(b);
+//     }
+//     //先调用外部函数
+//     numberone();
+//     //再调用内部函数
+//     last();
+
+	// var a=1;
+    // function numberone(){
+    //     var b=20;
+    //    last= function numbertwo(){
+    //         var c=30;
+    //         console.log(c);
+    //     }
+        
+    //     console.log(b);
+    // }
+    // //先调用外部函数
+    // numberone();
+    // //再调用内部函数
+    // last();
+	// console.log(delete last);
+	// console.log(delete a);
+
+// var obj = {
+//         age:18,
+//         run : function(){
+//           return  function(){
+//                 //this指向window
+//                 console.log(this); 
+            
+//             }
+//         }
+//     }
+// obj.run()();
+
+
+
+
+// function Person(){
+//         this.age=20;
+//     }
+//     Person.prototype.run=function(){
+//          var age=30;
+// 		// this.age=30;
+// 		 //	 age=30;
+// 		console.log(this);
+//         //console.log(this.age);
+//         console.log(age);
+//     }
+    
+//     var p1=new Person();
+//     p1.run();       //打印结果：20
+
+// var age=18;
+//     var o={
+//         age:10,
+//         say(){
+//             //age是一个属性
+//              console.log(this.age);
+//             // age=5;
+//             //age是一个变量
+//             //-->age这个变量来自于哪里？-->作用域链
+//             //  -->发现age是全局作用域中声明的变量，age：18
+//             console.log(age);
+//         }
+//     }
+//     o.say();    //10
+</script>
+
+</body>
+</html>
